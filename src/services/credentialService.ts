@@ -50,11 +50,27 @@ function decryptPassword (password: string) {
 export async function getCredentialById(userId: number, credentialId: number) {
     await verifyUser(userId);
 
+    const credential = await verifyCredentialAndUserId(userId, credentialId);
+
+    return { ...credential, password: decryptPassword(credential.password)};
+}
+
+export async function deleteCredentialById(userId: number, credentialId: number) {
+    await verifyUser(userId);
+
+    await verifyCredentialAndUserId(userId, credentialId);
+    
+    await credentialRepository.deleteById(credentialId);
+
+    return "Credential deleted";
+}
+
+async function verifyCredentialAndUserId(userId: number, credentialId: number) {
     const credential = await credentialRepository.findById(credentialId);
 
     if(!credential) throw { code: "notfound_error", message: "This credential doesn't exist" };
 
     if (credential.userId !== userId) throw { code: "unauthorized_error", message: "This credential doesn't belong to this user" };
 
-    return { ...credential, password: decryptPassword(credential.password)};
+    return credential;
 }

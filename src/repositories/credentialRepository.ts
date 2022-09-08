@@ -22,3 +22,7 @@ export async function findById(id: number) {
     const credentials = await client.credentials.findUnique({ where: { id } });
     return credentials;
 }
+
+export async function deleteById(id: number) {
+    await client.credentials.delete({ where: { id } });
+}
