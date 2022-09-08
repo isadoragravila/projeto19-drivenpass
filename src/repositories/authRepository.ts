@@ -5,7 +5,7 @@ export type UserData = Omit<users, 'id' | 'createdAt'>;
 
 
 export async function findByEmail(email: string) {
-    const result = client.users.findUnique({
+    const result = await client.users.findUnique({
         where: {
             email
         }
@@ -15,4 +15,13 @@ export async function findByEmail(email: string) {
 
 export async function insert(user: UserData) {
     await client.users.create({ data: user });
+}
+
+export async function findTokenMatch(id: number) {
+    const result = await client.users.findUnique({
+        where: {
+            id
+        }
+    });
+    return result;
 }
