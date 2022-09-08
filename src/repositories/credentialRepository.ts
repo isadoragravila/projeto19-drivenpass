@@ -12,3 +12,18 @@ export async function findByTitleAndUserId(userId: number, title: string) {
 export async function insert(credential: CredentialData) {
     await client.credentials.create({ data: credential });
 }
+
+export async function find(userId: number) {
+    const credentials = await client.credentials.findMany({
+        select: {
+            id: true,
+            title: true,
+            url: true,
+            username: true,
+            password: true,
+            userId: true
+        },
+        where: { userId } 
+    });
+    return credentials;
+}

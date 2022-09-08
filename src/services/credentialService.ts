@@ -29,3 +29,20 @@ function encryptPassword (password: string) {
 
     return encryptedPassword;
 }
+
+export async function getCredentials(userId: number) {
+    await verifyUser(userId);
+
+    const credentials = await credentialRepository.find(userId);
+
+    credentials.map(item => item.password = decryptPassword(item.password));
+
+    return credentials;
+}
+
+function decryptPassword (password: string) {
+    const cryptr = new Cryptr(process.env.CRYPTR_SECRET || "");
+    const decryptedPassword = cryptr.decrypt(password);
+
+    return decryptedPassword;
+}
