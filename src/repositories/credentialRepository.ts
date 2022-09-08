@@ -14,16 +14,11 @@ export async function insert(credential: CredentialData) {
 }
 
 export async function find(userId: number) {
-    const credentials = await client.credentials.findMany({
-        select: {
-            id: true,
-            title: true,
-            url: true,
-            username: true,
-            password: true,
-            userId: true
-        },
-        where: { userId } 
-    });
+    const credentials = await client.credentials.findMany({ where: { userId } });
+    return credentials;
+}
+
+export async function findById(id: number) {
+    const credentials = await client.credentials.findUnique({ where: { id } });
     return credentials;
 }
