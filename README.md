@@ -170,3 +170,92 @@
     - 200: sucesso;
     - 401: token inválido ou nota segura não pertencente ao usuário;
     - 404: usuário não encontrado (verificação do token) ou nota segura não encontrada.
+
+
+### Rota: POST ```/cards/create```
+  - **Função**: Cria novo cartão;
+  - Rota autenticada com um header do tipo **"Authorization"** no formato **"Bearer token"**;
+  - **Request:** body no formato:
+```json
+{
+  "title": "Cartão 1", //string
+    "number": "5472974396484296", //string
+    "cardHolderName": "MARIA SILVA", //string
+    "securityCode": "860", //string (3 dígitos)
+    "expirationDate": "09/27", //string
+    "password": "1234", //string
+    "isVirtual": false, //boolean
+    "type": "credit" //string (válidos: credit, debit, both)
+}
+```
+  - **StatusCodes**:
+    - 201: sucesso na criação;
+    - 401: token inválido;
+    - 404: usuário não encontrado (verificação do token);
+    - 409: titulo já existente;
+    - 422: erro no formato do body.
+
+
+### Rota: GET ```/cards```
+  - **Função**: Busca todos os cartões pertencentes ao usuário;
+  - Rota autenticada com um header do tipo **"Authorization"** no formato **"Bearer token"**;
+  - **Retorno:**
+```json
+[
+  {
+    "title": "Cartão 1", 
+    "number": "5472974396484296",
+    "cardHolderName": "MARIA SILVA",
+    "securityCode": "860",
+    "expirationDate": "09/27",
+    "password": "1234",
+    "isVirtual": false,
+    "type": "credit"
+  },
+  {
+    "title": "Cartão 2", 
+    "number": "5472974396484296",
+    "cardHolderName": "MARIA SILVA",
+    "securityCode": "860",
+    "expirationDate": "09/27",
+    "password": "1234",
+    "isVirtual": false,
+    "type": "debit"
+  }
+]
+```
+  - **StatusCodes**:
+    - 200: sucesso;
+    - 401: token inválido;
+    - 404: usuário não encontrado (verificação do token).
+
+### Rota: GET ```/cards/:cardId```
+  - **Função**: Busca um cartão específico pertencente ao usuário;
+  - Rota autenticada com um header do tipo **"Authorization"** no formato **"Bearer token"**;
+  - **Retorno:**
+```json
+{
+  "title": "Cartão 1", 
+  "number": "5472974396484296",
+  "cardHolderName": "MARIA SILVA",
+  "securityCode": "860",
+  "expirationDate": "09/27",
+  "password": "1234",
+  "isVirtual": false,
+  "type": "credit"
+}
+```
+  - **StatusCodes**:
+    - 200: sucesso;
+    - 401: token inválido ou cartão não pertencente ao usuário;
+    - 404: usuário não encontrado (verificação do token) ou cartão não encontrado.
+
+
+### Rota: DELETE ```/cards/delete/:cardId```
+  - **Função**: Deleta um cartão específico pertencente ao usuário;
+  - Rota autenticada com um header do tipo **"Authorization"** no formato **"Bearer token"**;
+  - **StatusCodes**:
+    - 200: sucesso;
+    - 401: token inválido ou cartão não pertencente ao usuário;
+    - 404: usuário não encontrado (verificação do token) ou cartão não encontrado.
+    
