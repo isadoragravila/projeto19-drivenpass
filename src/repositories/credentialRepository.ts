@@ -1,15 +1,12 @@
 import { client } from "../databases/database";
-import { credentials } from "@prisma/client";
-
-export type CredentialData = Omit<credentials, 'id' | 'createdAt'>;
-
+import { ICredentialData } from "../types/credentialTypes";
 
 export async function findByTitleAndUserId(userId: number, title: string) {
     const result = await client.credentials.findFirst({ where: { userId, title } });
     return result;
 }
 
-export async function insert(credential: CredentialData) {
+export async function insert(credential: ICredentialData) {
     await client.credentials.create({ data: credential });
 }
 

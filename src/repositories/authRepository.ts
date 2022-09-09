@@ -1,27 +1,16 @@
 import { client } from "../databases/database";
-import { users } from "@prisma/client";
-
-export type UserData = Omit<users, 'id' | 'createdAt'>;
-
+import { IUserData } from "../types/authTypes";
 
 export async function findByEmail(email: string) {
-    const result = await client.users.findUnique({
-        where: {
-            email
-        }
-    });
+    const result = await client.users.findUnique({ where: { email } });
     return result;
 }
 
-export async function insert(user: UserData) {
+export async function insert(user: IUserData) {
     await client.users.create({ data: user });
 }
 
 export async function findTokenMatch(id: number) {
-    const result = await client.users.findUnique({
-        where: {
-            id
-        }
-    });
+    const result = await client.users.findUnique({ where: { id } });
     return result;
 }

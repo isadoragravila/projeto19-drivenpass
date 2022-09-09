@@ -1,7 +1,6 @@
 import * as authRepository from '../repositories/authRepository';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { users } from "@prisma/client";
 
 export async function registerUser(email: string, password: string) {
     const existingEmail = await checkEmail(email);
@@ -17,7 +16,7 @@ export async function registerUser(email: string, password: string) {
 export async function loginUser(email: string, password: string) {
     const user = await checkEmailAndPassword(email, password);
     
-    const token = generateToken(user);
+    const token = generateToken(user.id);
 
     return { token };
 }
@@ -42,8 +41,8 @@ async function checkEmailAndPassword(email: string, password: string) {
     return user;
 }
 
-function generateToken(user: users) {
-    const data = { id: user.id };
+function generateToken(id: number) {
+    const data = { id };
     const secretKey = process.env.JWT_SECRET || "secret_key";
     const MONTH = 60 * 60* 24 * 30;
     const options = { expiresIn: MONTH };

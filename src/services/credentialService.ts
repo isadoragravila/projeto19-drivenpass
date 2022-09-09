@@ -1,14 +1,16 @@
 import * as authRepository from '../repositories/authRepository';
 import * as credentialRepository from '../repositories/credentialRepository';
 import Cryptr from 'cryptr';
+import { ICredentialData } from '../types/credentialTypes';
 
-export async function createCredential(id: number, title: string, url: string, username: string, password: string) {
-    await verifyUser(id);
-    await verifyTitle(id, title);
+export async function createCredential(credentialData: ICredentialData) {
+    const { userId, title, password } = credentialData;
+    await verifyUser(userId);
+    await verifyTitle(userId, title);
 
-    const credential = { title, url, username, password: encryptPassword(password), userId: id};
+    const credentials = { ...credentialData, password: encryptPassword(password) };
 
-    await credentialRepository.insert(credential);
+    await credentialRepository.insert(credentials);
 
     return "Credential created";
 }

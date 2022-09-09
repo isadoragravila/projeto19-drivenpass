@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import * as credentialService from '../services/credentialService';
+import { ICredentialSchema } from '../types/credentialTypes';
 
 export async function createCredential(req: Request, res: Response) {
     const { id } = res.locals.responseJwt;
-    const { title, url, username, password } = req.body;
+    const credential: ICredentialSchema = req.body;
 
-    const result = await credentialService.createCredential(Number(id), title, url, username, password);
+    const result = await credentialService.createCredential({userId: Number(id), ...credential});
 
     return res.status(201).send(result);
 }
