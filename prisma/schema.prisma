@@ -8,11 +8,12 @@ datasource db {
 }
 
 model users {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
+  id          Int           @id @default(autoincrement())
+  email       String        @unique
+  password    String
   credentials credentials[]
-  createdAt DateTime @default(now()) @db.Timestamp(6)
+  notes       notes[]
+  createdAt   DateTime      @default(now()) @db.Timestamp(6)
 }
 
 model credentials {
@@ -21,9 +22,20 @@ model credentials {
   url       String
   username  String
   password  String
-  user      users @relation(fields: [userId], references: [id])
+  user      users    @relation(fields: [userId], references: [id])
   userId    Int
   createdAt DateTime @default(now()) @db.Timestamp(6)
+
+  @@unique([title, userId])
+}
+
+model notes {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  user        users    @relation(fields: [userId], references: [id])
+  userId      Int
+  createdAt   DateTime @default(now()) @db.Timestamp(6)
 
   @@unique([title, userId])
 }

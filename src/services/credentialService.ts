@@ -1,4 +1,4 @@
-import * as authRepository from '../repositories/authRepository';
+import { verifyUser } from './authService';
 import * as credentialRepository from '../repositories/credentialRepository';
 import Cryptr from 'cryptr';
 import { ICredentialData } from '../types/credentialTypes';
@@ -13,11 +13,6 @@ export async function createCredential(credentialData: ICredentialData) {
     await credentialRepository.insert(credentials);
 
     return "Credential created";
-}
-
-async function verifyUser (id: number) {
-    const user = await authRepository.findTokenMatch(id);
-    if (!user) throw { code: "notfound_error", message: "User not found" };
 }
 
 async function verifyTitle (userId: number, title: string) {

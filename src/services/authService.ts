@@ -49,3 +49,8 @@ function generateToken(id: number) {
     
     return jwt.sign(data, secretKey, options);
 }
+
+export async function verifyUser (id: number) {
+    const user = await authRepository.findTokenMatch(id);
+    if (!user) throw { code: "notfound_error", message: "User not found" };
+}
