@@ -179,13 +179,13 @@
 ```json
 {
   "title": "Cartão 1", //string
-    "number": "5472974396484296", //string
-    "cardHolderName": "MARIA SILVA", //string
-    "securityCode": "860", //string (3 dígitos)
-    "expirationDate": "09/27", //string
-    "password": "1234", //string
-    "isVirtual": false, //boolean
-    "type": "credit" //string (válidos: credit, debit, both)
+  "number": "5472974396484296", //string
+  "cardHolderName": "MARIA SILVA", //string
+  "securityCode": "860", //string (3 dígitos)
+  "expirationDate": "09/27", //string
+  "password": "1234", //string
+  "isVirtual": false, //boolean
+  "type": "credit" //string (válidos: credit, debit, both)
 }
 ```
   - **StatusCodes**:
@@ -258,4 +258,71 @@
     - 200: sucesso;
     - 401: token inválido ou cartão não pertencente ao usuário;
     - 404: usuário não encontrado (verificação do token) ou cartão não encontrado.
+
+### Rota: POST ```/wifis/create```
+  - **Função**: Cria novo wifi;
+  - Rota autenticada com um header do tipo **"Authorization"** no formato **"Bearer token"**;
+  - **Request:** body no formato:
+```json
+{
+  "title": "Wifi 1", //string
+  "networkName": "casa", //string
+  "password": "12345678" //string
+}
+```
+  - **StatusCodes**:
+    - 201: sucesso na criação;
+    - 401: token inválido;
+    - 404: usuário não encontrado (verificação do token);
+    - 409: titulo já existente;
+    - 422: erro no formato do body.
+
+
+### Rota: GET ```/wifis```
+  - **Função**: Busca todos os wifis pertencentes ao usuário;
+  - Rota autenticada com um header do tipo **"Authorization"** no formato **"Bearer token"**;
+  - **Retorno:**
+```json
+[
+  {
+    "title": "Wifi 1",
+    "networkName": "casa",
+    "password": "12345678"
+  },
+  {
+    "title": "Wifi 2",
+    "networkName": "trabalho",
+    "password": "12345678"
+  }
+]
+```
+  - **StatusCodes**:
+    - 200: sucesso;
+    - 401: token inválido;
+    - 404: usuário não encontrado (verificação do token).
+
+### Rota: GET ```/wifis/:wifiId```
+  - **Função**: Busca um wifi específico pertencente ao usuário;
+  - Rota autenticada com um header do tipo **"Authorization"** no formato **"Bearer token"**;
+  - **Retorno:**
+```json
+{
+  "title": "Wifi 1",
+  "networkName": "casa",
+  "password": "12345678"
+}
+```
+  - **StatusCodes**:
+    - 200: sucesso;
+    - 401: token inválido ou wifi não pertencente ao usuário;
+    - 404: usuário não encontrado (verificação do token) ou wifi não encontrado.
+
+
+### Rota: DELETE ```/wifis/delete/:wifiId```
+  - **Função**: Deleta um wifi específico pertencente ao usuário;
+  - Rota autenticada com um header do tipo **"Authorization"** no formato **"Bearer token"**;
+  - **StatusCodes**:
+    - 200: sucesso;
+    - 401: token inválido ou wifi não pertencente ao usuário;
+    - 404: usuário não encontrado (verificação do token) ou wifi não encontrado.
     
