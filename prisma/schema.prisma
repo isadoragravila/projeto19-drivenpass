@@ -14,6 +14,7 @@ model users {
   credentials credentials[]
   notes       notes[]
   cards       cards[]
+  wifis       wifis[]
   createdAt   DateTime      @default(now()) @db.Timestamp(6)
 }
 
@@ -60,6 +61,18 @@ model cards {
   user           users    @relation(fields: [userId], references: [id])
   userId         Int
   createdAt      DateTime @default(now()) @db.Timestamp(6)
+
+  @@unique([title, userId])
+}
+
+model wifis {
+  id          Int      @id @default(autoincrement())
+  title       String
+  networkName String
+  password    String
+  user        users    @relation(fields: [userId], references: [id])
+  userId      Int
+  createdAt   DateTime @default(now()) @db.Timestamp(6)
 
   @@unique([title, userId])
 }
