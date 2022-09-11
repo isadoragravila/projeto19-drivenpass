@@ -43,11 +43,11 @@ async function checkEmailAndPassword(email: string, password: string) {
 
 function generateToken(id: number) {
     const data = { id };
-    const secretKey = process.env.JWT_SECRET || "secret_key";
-    const MONTH = 60 * 60* 24 * 30;
-    const options = { expiresIn: MONTH };
+    const SECRET = process.env.JWT_SECRET || "";
+    const EXPIRES_IN = Number(process.env.TOKEN_EXPIRES_IN);
+    const options = { expiresIn: EXPIRES_IN };
     
-    return jwt.sign(data, secretKey, options);
+    return jwt.sign(data, SECRET, options);
 }
 
 export async function verifyUser (id: number) {
