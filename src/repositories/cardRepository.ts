@@ -2,7 +2,14 @@ import { client } from "../databases/database";
 import { ICardData } from "../types/cardTypes";
 
 export async function findByTitleAndUserId(userId: number, title: string) {
-    const result = await client.cards.findFirst({ where: { userId, title } });
+    const result = await client.cards.findUnique({
+        where: {
+            title_userId: {
+                userId,
+                title
+            }
+        }
+    });
     return result;
 }
 

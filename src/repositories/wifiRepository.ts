@@ -2,7 +2,14 @@ import { client } from "../databases/database";
 import { IWifiData } from "../types/wifiTypes";
 
 export async function findByTitleAndUserId(userId: number, title: string) {
-    const result = await client.wifis.findFirst({ where: { userId, title } });
+    const result = await client.wifis.findUnique({
+        where: {
+            title_userId: {
+                userId,
+                title
+            }
+        }
+    });
     return result;
 }
 

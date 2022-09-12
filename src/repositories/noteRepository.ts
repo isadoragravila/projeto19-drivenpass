@@ -2,7 +2,14 @@ import { client } from "../databases/database";
 import { INoteData } from "../types/noteTypes";
 
 export async function findByTitleAndUserId(userId: number, title: string) {
-    const result = await client.notes.findFirst({ where: { userId, title } });
+    const result = await client.notes.findUnique({
+        where: {
+            title_userId: {
+                userId,
+                title
+            }
+        }
+    });
     return result;
 }
 
