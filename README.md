@@ -179,10 +179,10 @@
 ```json
 {
   "title": "Cartão 1", //string
-  "number": "5472974396484296", //string
+  "number": "5472974396484296", //string (16 dígitos)
   "cardHolderName": "MARIA SILVA", //string
   "securityCode": "860", //string (3 dígitos)
-  "expirationDate": "09/27", //string
+  "expirationDate": "09/27", //string (formato: MM/YY)
   "password": "1234", //string
   "isVirtual": false, //boolean
   "type": "credit" //string (válidos: credit, debit, both)
